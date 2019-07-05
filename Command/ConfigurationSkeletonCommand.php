@@ -2,33 +2,26 @@
 
 namespace APISkeletons\Doctrine\GraphQL\Command;
 
-use Symfony\Component\Console\Command\Command;
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Exception\RuntimeException;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use APISkeletons\Doctrine\GraphQL\Hydrator\Strategy;
 use APISkeletons\Doctrine\GraphQL\Hydrator\Filter;
+use Symfony\Component\Yaml\Yaml;
 
-final class ConfigurationSkeletonCommand extends Command
+final class ConfigurationSkeletonCommand extends ContainerAwareCommand
 {
-    protected static $defaultName = 'graphql:config-skeleton';
     private $io;
-    private $container;
-
-    public function __construct(ContainerInterface $container)
-    {
-        parent::__construct();
-
-        $this->container = $container;
-    }
 
     protected function configure(): void
     {
         $this
             ->setDescription('Create GraphQL configuration skeleton')
+            ->setHelp('Create a hydrator configuration file')
             ->addArgument(
                 'hydrator-sections',
                 InputArgument::OPTIONAL,
@@ -45,7 +38,6 @@ final class ConfigurationSkeletonCommand extends Command
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         $this->io = new SymfonyStyle($input, $output);
-        $this->io->title('Create GraphQL configuration skeleton');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): void
@@ -54,7 +46,7 @@ final class ConfigurationSkeletonCommand extends Command
         $hydratorSections = $input->getArgument('hydrator-sections') ?? 'default';
 
         try {
-            $objectManager = $this->container->getDoctrine()->getManager($connection);
+            $objectManager = $this->getContainer()->get('doctrine')->getManager($connection);
         } catch (RuntimeException $e) {
             $this->io->caution('Invalid connection name');
 
@@ -154,7 +146,7 @@ final class ConfigurationSkeletonCommand extends Command
 
                 $config['zf-doctrine-graphql-hydrator'][$hydratorAlias][$section] = [
                     'entity_class' => $classMetadata->getName(),
-                    'object_manager' => $objectManagerAlias,
+                    'object_manager' => $connection,
                     'by_value' => true,
                     'use_generated_hydrator' => true,
                     'hydrator' => null,
@@ -166,11 +158,7 @@ final class ConfigurationSkeletonCommand extends Command
             }
         }
 
-        $configObject = new Config($config);
-        $writer = new PhpArray();
-        $writer->setUseBracketArraySyntax(true);
-        $writer->setUseClassNameScalars(true);
-
-        echo $writer->toString($configObject);
+        // 4 spaces
+        echo Yaml::dump($config, 10, 4);
     }
 }

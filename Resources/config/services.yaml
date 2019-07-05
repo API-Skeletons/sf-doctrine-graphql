@@ -1,0 +1,6 @@
+services:
+    APISkeletons\Doctrine\GraphQL\Command\ConfigurationSkeletonCommand:
+        arguments: []
+        tags:
+            - { name: 'console.command', command: 'graphql:config-skeleton' } 
+        
