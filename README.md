@@ -1,6 +1,8 @@
 Doctrine GraphQL for Symfony
 ============================
 
+** THIS SYMFONY BUNDLE IS UNDER DEVELOPMENT **
+
 This library uses Doctrine native traversal of related objects to provide full GraphQL
 querying of entities and all related fields and entities.
 Entity metadata is introspected and is therefore Doctrine data driver agnostic.
