@@ -11,7 +11,8 @@
         }
     ],
     "require": {
-        "webimpress/doctrine-zend-hydrator": "^1.0@dev"
+        "webimpress/doctrine-zend-hydrator": "^1.0@dev",
+        "symfony/options-resolver": "4.3.*"
     },
     "autoload": {
         "psr-4": { "APISkeletons\\Doctrine\\GraphQL\\": "" }
