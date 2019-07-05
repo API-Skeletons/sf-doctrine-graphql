@@ -12,5 +12,8 @@
     ],
     "require": {
         "webimpress/doctrine-zend-hydrator": "^1.0@dev"
+    },
+    "autoload": {
+        "psr-4": { "APISkeletons\\Doctrine\\GraphQL\\": "" }
     }
 }
