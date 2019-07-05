@@ -144,7 +144,7 @@ final class ConfigurationSkeletonCommand extends ContainerAwareCommand
                     'filter' => Filter\FilterDefault::class,
                 ];
 
-                $config['zf-doctrine-graphql-hydrator'][$hydratorAlias][$section] = [
+                $config['sf-doctrine-graphql-hydrator'][$hydratorAlias][$section] = [
                     'entity_class' => $classMetadata->getName(),
                     'object_manager' => $connection,
                     'by_value' => true,
