@@ -1,0 +1,16 @@
+{
+    "name": "api-skeletons/sf-doctrine-graphql",
+    "description": "GraphQL for Doctrine using Hydrators for Symfony",
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "minimum-stability": "dev",
+    "authors": [
+        {
+            "name": "Tom H Anderson",
+            "email": "tom.h.anderson@gmail.com"
+        }
+    ],
+    "require": {
+        "webimpress/doctrine-zend-hydrator": "^1.0@dev"
+    }
+}
